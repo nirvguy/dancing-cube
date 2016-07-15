@@ -32,6 +32,18 @@ void display()
 }
 
 
+void window_reshape(GLint width, GLint height)
+{
+	glViewport(0, 0, (GLsizei) width, (GLsizei) height);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(45,                                   // Field of view angle in degrees
+		           (GLfloat) width / (GLfloat) height,   // Aspect ratio
+		           0.5,                                  // Z near
+		           20.0);                                // Z far
+	glMatrixMode(GL_MODELVIEW);
+}
+
 void init()
 {
 	// Set background color to gray
@@ -69,6 +81,7 @@ int main(int argc, char** argv)
 	glutCreateWindow("dancing-cube");
 
 	glutDisplayFunc(display);
+	glutReshapeFunc(window_reshape);
 
 	init();
 	glutMainLoop();
