@@ -1,7 +1,7 @@
 CC=gcc
 BIN=dancing-cube
 
-OBJS=dancing-cube.o
+OBJS=dancing-cube.o cubes.o
 CFLAGS=-g -Wall -pedantic
 LDFLAGS=-lGL -lglut -lGLU
 

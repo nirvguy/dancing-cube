@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+#include "cubes.h"
 
 const GLfloat light_ambient[]  = {0.5  , 0.5   , 0.5 , 0.0};   // RGBA color of the ambient light
 const GLfloat light_diffuse[]  = {0.01 , 0.689 , 0.8 , 1.0};   // RGBA color of the diffuse light
@@ -26,6 +27,7 @@ const GLfloat light_position[] = {1.0  , 1.0   , 1.0 , 0.0};   // Position of th
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	draw_cubes();
 	glutSwapBuffers();
 }
 
@@ -58,6 +60,9 @@ void init()
 
 int main(int argc, char** argv)
 {
+	//Set-up cubes
+	init_cubes();
+
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
@@ -67,6 +72,8 @@ int main(int argc, char** argv)
 
 	init();
 	glutMainLoop();
+
+	destroy_cubes();
 
 	return 0;
 }
