@@ -83,6 +83,10 @@ int main(int argc, char** argv)
 	glutDisplayFunc(display);
 	glutReshapeFunc(window_reshape);
 
+	glutDisplayFunc(display);
+	glutTimerFunc(MSEC_FRAME, timer_update_cubes, FRAME_START);
+	glutIdleFunc(display);
+
 	init();
 	glutMainLoop();
 

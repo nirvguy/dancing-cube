@@ -15,6 +15,7 @@
  * along with dancing-cube.  If not, see <http://www.gnu.org/licenses/>.
  **/
 #include "cubes.h"
+#include "transforms.h"
 
 void init_cubes()
 {
@@ -39,6 +40,15 @@ void destroy_cubes()
 	free(cube_position);
 }
 
+void update_cubes_position(int frame)
+{
+	GLfloat t = (GLfloat) frame / ((GLfloat) (FRAME_END-FRAME_START));
+
+	for(int i=0; i<CUBES_X; i++)
+		for(int j=0; j<CUBES_Y; j++)
+			cube_position[i][j].z = f(t, cube_position[i][j].x, cube_position[i][j].y);
+}
+
 void draw_cubes()
 {
 	for(int i=0; i<CUBES_X; i++) {
@@ -51,4 +61,15 @@ void draw_cubes()
 			glPopMatrix();
 		}
 	}
+}
+
+void timer_update_cubes(int frame)
+{
+	update_cubes_position(frame);
+
+	frame++;
+	if(frame > FRAME_END)
+		frame = FRAME_START;
+
+	glutTimerFunc(MSEC_FRAME, timer_update_cubes, frame);
 }

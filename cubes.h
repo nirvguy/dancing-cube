@@ -29,6 +29,10 @@
 #define EPS           0.05        // cube's separation distance
 #define CUBES_X       (int) ((END_X - START_X) / (EPS + CUBE_SIZE))          // number of cubes in x-axis
 #define CUBES_Y       (int) ((END_Y - START_Y) / (EPS + CUBE_SIZE))          // number of cubes in z-axis
+#define FRAME_START   0
+#define FRAME_END     250
+#define FPS           24
+#define MSEC_FRAME    1000.0/FPS  // time in millesconds of a frame
 
 typedef struct point3d_t {
 	GLfloat x, y, z;
@@ -37,7 +41,9 @@ typedef struct point3d_t {
 point3d** cube_position;
 
 void init_cubes();
+void update_cubes_position(int frame);
 void draw_cubes();
 void destroy_cubes();
+void timer_update_cubes(int frame);
 
 #endif /* end of include guard: CUBES_H */
