@@ -19,8 +19,19 @@
 
 #define PI           3.14159265359
 
-GLfloat f(GLfloat time, GLfloat x, GLfloat y)
+GLfloat f1(GLfloat time, GLfloat x, GLfloat y)
 {
 	GLfloat norm = sqrt(x*x + y*y);
 	return sin( norm / (cos( time * 2.0 * PI )+1) );
+}
+
+GLfloat f2(GLfloat time, GLfloat x, GLfloat y)
+{
+	GLfloat norm = x*x + y*y;
+	return time*5.0*exp(-norm/(8*(1.0-time+0.01)))/2;
+}
+
+GLfloat f3(GLfloat time, GLfloat x, GLfloat y)
+{
+	return sin(-x*x+y+time*PI*2)/4.0;
 }

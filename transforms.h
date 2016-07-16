@@ -19,6 +19,8 @@
 
 #include <GL/gl.h>
 
-GLfloat f(GLfloat time, GLfloat x, GLfloat y);
+GLfloat f1(GLfloat time, GLfloat x, GLfloat y);
+GLfloat f2(GLfloat time, GLfloat x, GLfloat y);
+GLfloat f3(GLfloat time, GLfloat x, GLfloat y);
 
 #endif /* end of include guard: TRANSFORMS_H */

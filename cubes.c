@@ -46,7 +46,7 @@ void update_cubes_position(int frame)
 
 	for(int i=0; i<CUBES_X; i++)
 		for(int j=0; j<CUBES_Y; j++)
-			cube_position[i][j].z = f(t, cube_position[i][j].x, cube_position[i][j].y);
+			cube_position[i][j].z = f1(t, cube_position[i][j].x, cube_position[i][j].y);
 }
 
 void draw_cubes()
