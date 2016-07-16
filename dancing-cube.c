@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+#include <getopt.h>
 #include "cubes.h"
 
 const GLfloat light_ambient[]  = {0.5  , 0.5   , 0.5 , 0.0};   // RGBA color of the ambient light
@@ -70,12 +71,58 @@ void init()
 	          0.0, 0.0, 1.0); // Up vector
 }
 
+void usage() {
+	printf("Usage: ./danzing_cube [OPENGL_OPTION]... [OPTION]...,\n");
+	printf("OPENGL_OPTION:\n");
+	printf("-display DISPLAY         Specify the X server to connect to. \n\
+                         If not specified, the value of the DISPLAY environment variable is used.\n");
+	printf("-geometry W x H + X + Y  Determines where window's should be created on the screen.\n\
+                         The parameter following -geometry should be formatted as a standard X geometry specification.\n\
+                         The effect of using this option is to change the GLUT initial size\n\
+                         and initial position the same as if glutInitWindowSize or glutInitWindowPosition\n\
+                         were called directly.\n");
+	printf("-iconic                  Requests all top-level windows be created in an iconic state.\n");
+	printf("-indirect                Force the use of indirect OpenGL rendering contexts.\n");
+	printf("-direct                  Force the use of direct OpenGL rendering contexts\n\
+                         (not all GLX implementations support direct rendering contexts).\n\
+                         A fatal error is generated if direct rendering is not supported by the OpenGL implementation.\n\
+                         If neither -indirect or -direct are used to force a particular behavior,\n\
+                         GLUT will attempt to use direct rendering if possible and otherwise fallback to indirect rendering.\n");
+	printf("-gldebug                 After processing callbacks and/or events,\n\
+                         check if there are any OpenGL errors by calling glGetError.\n\
+                         If an error is reported, print out a warning by looking up the error code with gluErrorString.\n\
+                         Using this option is helpful in detecting   OpenGL run-time errors.\n");
+	printf("-sync                    Enable synchronous X protocol transactions.\n\
+                         This option makes it easier to track down potential   X protocol errors.\n");
+	printf("\n");
+	printf("OPTION:\n");
+	printf("-h                      Display this message\n");
+}
+
 int main(int argc, char** argv)
 {
-	//Set-up cubes
-	init_cubes();
+	static struct option long_opts[] = {
+		{"help"  , no_argument       , 0 , 'h'} ,
+		{0       , 0                 , 0 , 0}
+	};
 
 	glutInit(&argc, argv);
+
+	int opt_index, opt;
+	while((opt = getopt_long(argc, argv, "h",
+		                     long_opts, &opt_index)) != -1) {
+		switch(opt) {
+			case '?':
+				usage();
+				return 1;
+			case 'h':
+				usage();
+				return 0;
+		}
+	}
+
+	//Set-up cubes
+	init_cubes();
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
 	glutCreateWindow("dancing-cube");
