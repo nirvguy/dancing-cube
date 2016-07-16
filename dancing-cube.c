@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <stdio.h>
+#include <string.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <getopt.h>
@@ -96,20 +97,26 @@ void usage() {
                          This option makes it easier to track down potential   X protocol errors.\n");
 	printf("\n");
 	printf("OPTION:\n");
-	printf("-h                      Display this message\n");
+	printf("-h                                    Display this message\n");
+	printf("-a ANIM_TYPE, --anim=ANIM_TYPE        Change the animation type.\n");
+	printf("                                      Options for ANIM_TYPE are f1, f2, f3\n");
+	printf("                                      (by default is f1)\n");
 }
 
 int main(int argc, char** argv)
 {
+	cube_config_t cube_config = { F1 };
+
 	static struct option long_opts[] = {
 		{"help"  , no_argument       , 0 , 'h'} ,
+		{"anim"  , required_argument , 0 , 'a'} ,
 		{0       , 0                 , 0 , 0}
 	};
 
 	glutInit(&argc, argv);
 
 	int opt_index, opt;
-	while((opt = getopt_long(argc, argv, "h",
+	while((opt = getopt_long(argc, argv, "ha:",
 		                     long_opts, &opt_index)) != -1) {
 		switch(opt) {
 			case '?':
@@ -118,11 +125,23 @@ int main(int argc, char** argv)
 			case 'h':
 				usage();
 				return 0;
+			case 'a':
+				if(!strcmp(optarg, "f1"))
+					cube_config.anim_type = F1;
+				else if(!strcmp(optarg, "f2"))
+					cube_config.anim_type = F2;
+				else if(!strcmp(optarg, "f3"))
+					cube_config.anim_type = F3;
+				else {
+					fprintf(stderr,"%s : Animation not recognized\n", optarg);
+					return 1;
+				}
+				break;
 		}
 	}
 
 	//Set-up cubes
-	init_cubes();
+	init_cubes(cube_config);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
 	glutCreateWindow("dancing-cube");

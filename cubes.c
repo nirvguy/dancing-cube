@@ -17,8 +17,20 @@
 #include "cubes.h"
 #include "transforms.h"
 
-void init_cubes()
+void init_cubes(cube_config_t cube_config)
 {
+	switch(cube_config.anim_type) {
+		case F1:
+			anim_callback = f1;
+			break;
+		case F2:
+			anim_callback = f2;
+			break;
+		case F3:
+			anim_callback = f3;
+			break;
+	}
+
 	cube_position = (point3d**) malloc(CUBES_X * sizeof(point3d*));
 
 	// Initialize cube start positions
@@ -46,7 +58,7 @@ void update_cubes_position(int frame)
 
 	for(int i=0; i<CUBES_X; i++)
 		for(int j=0; j<CUBES_Y; j++)
-			cube_position[i][j].z = f1(t, cube_position[i][j].x, cube_position[i][j].y);
+			cube_position[i][j].z = anim_callback(t, cube_position[i][j].x, cube_position[i][j].y);
 }
 
 void draw_cubes()

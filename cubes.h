@@ -34,13 +34,26 @@
 #define FPS           24
 #define MSEC_FRAME    1000.0/FPS  // time in millesconds of a frame
 
+typedef enum {
+	F1,
+	F2,
+	F3
+} anim_t;
+
+typedef struct {
+	anim_t anim_type;
+} cube_config_t;
+
+typedef GLfloat (*transform_callback_t) (GLfloat, GLfloat, GLfloat);
+
 typedef struct point3d_t {
 	GLfloat x, y, z;
 } point3d;
 
 point3d** cube_position;
+transform_callback_t anim_callback;
 
-void init_cubes();
+void init_cubes(cube_config_t);
 void update_cubes_position(int frame);
 void draw_cubes();
 void destroy_cubes();
