@@ -17,8 +17,46 @@
 #include "cubes.h"
 #include "transforms.h"
 
+#define SPHERE_SLICES    8
+#define SPHERE_STACKS    4
+
+void drawSolidSphere(void)
+{
+	glutSolidSphere(CUBE_SIZE, SPHERE_SLICES, SPHERE_STACKS);
+}
+
+void drawWireSphere(void)
+{
+	glutWireSphere(CUBE_SIZE, SPHERE_SLICES, SPHERE_STACKS);
+}
+
+void drawSolidCube(void)
+{
+	glutSolidCube(CUBE_SIZE);
+}
+
+void drawWireCube(void)
+{
+	glutWireCube(CUBE_SIZE);
+}
+
 void init_cubes(cube_config_t cube_config)
 {
+	switch(cube_config.model_type) {
+		case SOLID_CUBE:
+			draw_object_callback = drawSolidCube;
+			break;
+		case WIRE_CUBE:
+			draw_object_callback = drawWireCube;
+			break;
+		case SOLID_SPHERE:
+			draw_object_callback = drawSolidSphere;
+			break;
+		case WIRE_SPHERE:
+			draw_object_callback = drawWireSphere;
+			break;
+	}
+
 	switch(cube_config.anim_type) {
 		case F1:
 			anim_callback = f1;
@@ -69,7 +107,7 @@ void draw_cubes()
 			glTranslatef(cube_position[i][j].x,
 			             cube_position[i][j].y,
 			             cube_position[i][j].z);
-			glutSolidCube(CUBE_SIZE);
+			draw_object_callback();
 			glPopMatrix();
 		}
 	}

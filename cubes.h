@@ -35,16 +35,25 @@
 #define MSEC_FRAME    1000.0/FPS  // time in millesconds of a frame
 
 typedef enum {
+	SOLID_CUBE,
+	WIRE_CUBE,
+	SOLID_SPHERE,
+	WIRE_SPHERE
+} model_t;
+
+typedef enum {
 	F1,
 	F2,
 	F3
 } anim_t;
 
 typedef struct {
-	anim_t anim_type;
+	model_t model_type;
+	anim_t  anim_type;
 } cube_config_t;
 
 typedef GLfloat (*transform_callback_t) (GLfloat, GLfloat, GLfloat);
+typedef void (*draw_object_callback_t) (void);
 
 typedef struct point3d_t {
 	GLfloat x, y, z;
@@ -52,6 +61,7 @@ typedef struct point3d_t {
 
 point3d** cube_position;
 transform_callback_t anim_callback;
+draw_object_callback_t draw_object_callback;
 
 void init_cubes(cube_config_t);
 void update_cubes_position(int frame);

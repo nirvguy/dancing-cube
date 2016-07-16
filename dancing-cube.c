@@ -101,22 +101,26 @@ void usage() {
 	printf("-a ANIM_TYPE, --anim=ANIM_TYPE        Change the animation type.\n");
 	printf("                                      Options for ANIM_TYPE are f1, f2, f3\n");
 	printf("                                      (by default is f1)\n");
+	printf("-m MODEL_TYPE, --model=MODEL_TYPE     Change the 3D model.\n");
+	printf("                                      Options for MODEL_TYPE are solid_cube, wire_cube, solid_sphere, wire_sphere\n");
+	printf("                                      (by default is solid_cube)\n");
 }
 
 int main(int argc, char** argv)
 {
-	cube_config_t cube_config = { F1 };
+	cube_config_t cube_config = { SOLID_CUBE, F1 };
 
 	static struct option long_opts[] = {
 		{"help"  , no_argument       , 0 , 'h'} ,
 		{"anim"  , required_argument , 0 , 'a'} ,
+		{"model" , required_argument , 0 , 'm'} ,
 		{0       , 0                 , 0 , 0}
 	};
 
 	glutInit(&argc, argv);
 
 	int opt_index, opt;
-	while((opt = getopt_long(argc, argv, "ha:",
+	while((opt = getopt_long(argc, argv, "ha:m:",
 		                     long_opts, &opt_index)) != -1) {
 		switch(opt) {
 			case '?':
@@ -134,6 +138,20 @@ int main(int argc, char** argv)
 					cube_config.anim_type = F3;
 				else {
 					fprintf(stderr,"%s : Animation not recognized\n", optarg);
+					return 1;
+				}
+				break;
+			case 'm':
+				if(!strcmp(optarg, "solid_cube"))
+					cube_config.model_type = SOLID_CUBE;
+				else if(!strcmp(optarg, "wire_cube"))
+					cube_config.model_type = WIRE_CUBE;
+				else if(!strcmp(optarg, "solid_sphere"))
+					cube_config.model_type = SOLID_SPHERE;
+				else if(!strcmp(optarg, "wire_sphere"))
+					cube_config.model_type = WIRE_SPHERE;
+				else {
+					fprintf(stderr, "%s : Model not recognized \n", optarg);
 					return 1;
 				}
 				break;
