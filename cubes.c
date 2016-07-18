@@ -24,6 +24,7 @@ void drawSolidSphere(void);
 void drawWireSphere(void);
 void drawSolidCube(void);
 void drawWireCube(void);
+void drawSolidWireCube(void);
 
 cube_t** cubes;
 transform_callback_t anim_callback = f1;
@@ -49,6 +50,20 @@ void drawSolidCube(void)
 void drawWireCube(void)
 {
 	glutWireCube(CUBE_SIZE);
+}
+
+void drawSolidTeapot(void)
+{
+	glRotatef(90.0, 1.0, 0.0, 0.0);
+	glScalef(0.5, 0.5, 0.5);
+	glutSolidTeapot(CUBE_SIZE);
+}
+
+void drawWireTeapot(void)
+{
+	glRotatef(90.0, 1.0, 0.0, 0.0);
+	glScalef(0.5, 0.5, 0.5);
+	glutWireTeapot(CUBE_SIZE);
 }
 
 void init_cubes()
@@ -107,6 +122,12 @@ void model_type(model_t m_type)
 			break;
 		case WIRE_SPHERE:
 			draw_object_callback = drawWireSphere;
+			break;
+		case SOLID_TEAPOT:
+			draw_object_callback = drawSolidTeapot;
+			break;
+		case WIRE_TEAPOT:
+			draw_object_callback = drawWireTeapot;
 			break;
 	}
 }

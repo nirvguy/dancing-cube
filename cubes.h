@@ -39,7 +39,9 @@ typedef enum {
 	SOLID_CUBE,
 	WIRE_CUBE,
 	SOLID_SPHERE,
-	WIRE_SPHERE
+	WIRE_SPHERE,
+	SOLID_TEAPOT,
+	WIRE_TEAPOT
 } model_t;
 
 typedef enum {

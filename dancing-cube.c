@@ -90,14 +90,14 @@ void keyboard_press(unsigned char key, int x, int y)
 			break;
 		case 'n':
 			model_index++;
-			if(model_index > WIRE_SPHERE)
+			if(model_index > WIRE_TEAPOT)
 				model_index = SOLID_CUBE;
 			model_type(model_index);
 			break;
 		case 'N':
 			model_index--;
 			if(model_index < 0)
-				model_index = WIRE_SPHERE;
+				model_index = WIRE_TEAPOT;
 			model_type(model_index);
 			break;
 	}
@@ -206,6 +206,10 @@ int main(int argc, char** argv)
 					model_index = SOLID_SPHERE;
 				else if(!strcmp(optarg, "wire_sphere"))
 					model_index = WIRE_SPHERE;
+				else if(!strcmp(optarg, "solid_teapot"))
+					model_index = SOLID_TEAPOT;
+				else if(!strcmp(optarg, "wire_teapot"))
+					model_index = WIRE_TEAPOT;
 				else {
 					fprintf(stderr, "%s : Model not recognized \n", optarg);
 					return 1;
