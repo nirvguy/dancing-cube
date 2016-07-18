@@ -15,31 +15,48 @@
  * along with dancing-cube.  If not, see <http://www.gnu.org/licenses/>.
  **/
 #include <math.h>
-#include "transforms.h"
 #include "utils.h"
 
-#define PI           3.14159265359
-
-GLfloat f1(GLfloat time, GLfloat x, GLfloat y)
+rgb_color_t hsv_to_rgb(float h, float s, float v)
 {
-	GLfloat norm = sqrt(x*x + y*y);
-	return sin( norm / (cos( time * 2.0 * PI )+1) );
-}
-
-rgb_color_t f1_color(GLfloat time, GLfloat x, GLfloat y, GLfloat z) {
 	rgb_color_t ret;
-	GLfloat norm = sqrt(x*x + y*y);
-	ret = hsv_to_rgb((norm/6.0)*360.0+(sin(time * 4 * PI)/2.0+0.5)*360.0, 0.9, sin(time * 2.0 * PI)/4.0+0.75);
+	int i = (int)floor(h/60.0f) % 6;
+	float f = h/60.0f - floor(h/60.0f);
+	float p = v * (float)(1 - s);
+	float q = v * (float)(1 - s * f);
+	float t = v * (float)(1 - (1 - f) * s);
+
+	switch (i) {
+		case 0:
+			ret.r = v;
+			ret.g = t;
+			ret.b = p;
+			break;
+		case 1:
+			ret.r = q;
+			ret.g = v;
+			ret.b = p;
+			break;
+		case 2:
+			ret.r = p;
+			ret.g = v;
+			ret.b = t;
+			break;
+		case 3:
+			ret.r = p;
+			ret.g = q;
+			ret.b = v;
+			break;
+		case 4:
+			ret.r = t;
+			ret.g = p;
+			ret.b = v;
+			break;
+		case 5:
+			ret.r = v;
+			ret.g = p;
+			ret.b = q;
+			break;
+	}
 	return ret;
-}
-
-GLfloat f2(GLfloat time, GLfloat x, GLfloat y)
-{
-	GLfloat norm = x*x + y*y;
-	return time*5.0*exp(-norm/(8*(1.0-time+0.01)))/2;
-}
-
-GLfloat f3(GLfloat time, GLfloat x, GLfloat y)
-{
-	return sin(-x*x+y+time*PI*2)/4.0;
 }

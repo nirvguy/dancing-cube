@@ -21,6 +21,7 @@
 #include <GL/glut.h>
 #include <getopt.h>
 #include "cubes.h"
+#include "materials.h"
 
 const GLfloat light_ambient[]  = {0.8 , 0.8 , 0.8 , 0.0};   // RGBA color of the ambient light
 const GLfloat light_diffuse[]  = {0.7 , 0.7 , 0.7 , 1.0};   // RGBA color of the diffuse light
@@ -176,6 +177,8 @@ int main(int argc, char** argv)
 
 	glutDisplayFunc(display);
 	glutReshapeFunc(window_reshape);
+
+	material_base_type(PLASTIC);
 
 	glutDisplayFunc(display);
 	glutTimerFunc(MSEC_FRAME, timer_update_cubes, FRAME_START);

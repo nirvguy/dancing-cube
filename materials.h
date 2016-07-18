@@ -14,32 +14,30 @@
  * You should have received a copy of the GNU General Public License
  * along with dancing-cube.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include <math.h>
-#include "transforms.h"
-#include "utils.h"
+#ifndef MATERIALS_H
+#define MATERIALS_H
+#include <GL/glu.h>
+#include <GL/glut.h>
 
-#define PI           3.14159265359
+typedef struct {
+	GLfloat ambient[4];
+	GLfloat diffuse[3];
+	GLfloat specular[3];
+	GLfloat shiness;
+} material_t;
 
-GLfloat f1(GLfloat time, GLfloat x, GLfloat y)
-{
-	GLfloat norm = sqrt(x*x + y*y);
-	return sin( norm / (cos( time * 2.0 * PI )+1) );
-}
+typedef struct {
+	GLfloat r, g, b;
+} rgb_color_t;
 
-rgb_color_t f1_color(GLfloat time, GLfloat x, GLfloat y, GLfloat z) {
-	rgb_color_t ret;
-	GLfloat norm = sqrt(x*x + y*y);
-	ret = hsv_to_rgb((norm/6.0)*360.0+(sin(time * 4 * PI)/2.0+0.5)*360.0, 0.9, sin(time * 2.0 * PI)/4.0+0.75);
-	return ret;
-}
+typedef enum {
+	PLASTIC=0,
+	RUBBER,
+	METAL
+} material_type;
 
-GLfloat f2(GLfloat time, GLfloat x, GLfloat y)
-{
-	GLfloat norm = x*x + y*y;
-	return time*5.0*exp(-norm/(8*(1.0-time+0.01)))/2;
-}
 
-GLfloat f3(GLfloat time, GLfloat x, GLfloat y)
-{
-	return sin(-x*x+y+time*PI*2)/4.0;
-}
+void apply_material(material_t mat);
+void apply_material_by_type(material_type mat_type, rgb_color_t material_color);
+
+#endif /* end of include guard: MATERIALS_H */

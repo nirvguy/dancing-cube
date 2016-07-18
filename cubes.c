@@ -23,6 +23,8 @@
 cube_t** cubes;
 transform_callback_t anim_callback;
 draw_object_callback_t draw_object_callback;
+material_type mat_base_type = PLASTIC;
+transform_color_callback_t color_callback = f1_color;
 
 void drawSolidSphere(void)
 {
@@ -94,13 +96,21 @@ void destroy_cubes()
 	free(cubes);
 }
 
+void material_base_type(material_type mat_type) {
+	mat_base_type = mat_type;
+}
+
 void update_cubes_position(int frame)
 {
 	GLfloat t = (GLfloat) frame / ((GLfloat) (FRAME_END-FRAME_START));
 
 	for(int i=0; i<CUBES_X; i++)
-		for(int j=0; j<CUBES_Y; j++)
+		for(int j=0; j<CUBES_Y; j++) {
 			cubes[i][j].loc.z = anim_callback(t, cubes[i][j].loc.x, cubes[i][j].loc.y);
+			cubes[i][j].color = color_callback(t, cubes[i][j].loc.x,
+			                                      cubes[i][j].loc.y,
+												  cubes[i][j].loc.z);
+		}
 }
 
 void draw_cubes()
@@ -111,6 +121,7 @@ void draw_cubes()
 			glTranslatef(cubes[i][j].loc.x,
 			             cubes[i][j].loc.y,
 			             cubes[i][j].loc.z);
+			apply_material_by_type(mat_base_type, cubes[i][j].color);
 			draw_object_callback();
 			glPopMatrix();
 		}

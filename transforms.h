@@ -18,8 +18,10 @@
 #define TRANSFORMS_H
 
 #include <GL/gl.h>
+#include "materials.h"
 
 GLfloat f1(GLfloat time, GLfloat x, GLfloat y);
+rgb_color_t f1_color(GLfloat time, GLfloat x, GLfloat y, GLfloat z);
 GLfloat f2(GLfloat time, GLfloat x, GLfloat y);
 GLfloat f3(GLfloat time, GLfloat x, GLfloat y);
 

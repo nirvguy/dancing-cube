@@ -14,32 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with dancing-cube.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#include <math.h>
-#include "transforms.h"
-#include "utils.h"
+#include "materials.h"
 
-#define PI           3.14159265359
-
-GLfloat f1(GLfloat time, GLfloat x, GLfloat y)
-{
-	GLfloat norm = sqrt(x*x + y*y);
-	return sin( norm / (cos( time * 2.0 * PI )+1) );
-}
-
-rgb_color_t f1_color(GLfloat time, GLfloat x, GLfloat y, GLfloat z) {
-	rgb_color_t ret;
-	GLfloat norm = sqrt(x*x + y*y);
-	ret = hsv_to_rgb((norm/6.0)*360.0+(sin(time * 4 * PI)/2.0+0.5)*360.0, 0.9, sin(time * 2.0 * PI)/4.0+0.75);
-	return ret;
-}
-
-GLfloat f2(GLfloat time, GLfloat x, GLfloat y)
-{
-	GLfloat norm = x*x + y*y;
-	return time*5.0*exp(-norm/(8*(1.0-time+0.01)))/2;
-}
-
-GLfloat f3(GLfloat time, GLfloat x, GLfloat y)
-{
-	return sin(-x*x+y+time*PI*2)/4.0;
-}
+/**
+ * Convert HSV to RGB
+ *
+ * \param h Hue        (from 0.0 to 360.0)
+ * \param s Saturation (from 0.0 to 1.0)
+ * \param v Value      (from 0.0 to 1.0)
+ *
+ * \return rgb color from the hue, saturation and value
+ */
+rgb_color_t hsv_to_rgb( float h, float s, float v );
