@@ -22,9 +22,9 @@
 #include <getopt.h>
 #include "cubes.h"
 
-const GLfloat light_ambient[]  = {0.5  , 0.5   , 0.5 , 0.0};   // RGBA color of the ambient light
-const GLfloat light_diffuse[]  = {0.01 , 0.689 , 0.8 , 1.0};   // RGBA color of the diffuse light
-const GLfloat light_position[] = {1.0  , 1.0   , 1.0 , 0.0};   // Position of the light
+const GLfloat light_ambient[]  = {0.8 , 0.8 , 0.8 , 0.0};   // RGBA color of the ambient light
+const GLfloat light_diffuse[]  = {0.7 , 0.7 , 0.7 , 1.0};   // RGBA color of the diffuse light
+const GLfloat light_position[] = {1.0 , 1.0 , 1.0 , 0.0};   // Position of the light
 
 void display()
 {
