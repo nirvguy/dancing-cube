@@ -72,6 +72,12 @@ void destroy_cubes();
  * \param mat_type New material type
  */
 void material_base_type(material_type mat_type);
+
+/*
+ * Change animation type
+ *
+ * \param anim_type New animation type
+ */
 void animation_type(anim_t anim_type);
 void model_type(model_t anim_type);
 

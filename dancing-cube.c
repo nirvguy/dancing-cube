@@ -28,6 +28,7 @@ const GLfloat light_diffuse[]  = {0.7 , 0.7 , 0.7 , 1.0};   // RGBA color of the
 const GLfloat light_position[] = {1.0 , 1.0 , 1.0 , 0.0};   // Position of the light
 
 int mat_index=0;
+int anim_index=0;
 
 void display()
 {
@@ -73,6 +74,18 @@ void keyboard_press(unsigned char key, int x, int y)
 			if(mat_index < 0)
 				mat_index = METAL;
 			material_base_type(mat_index);
+			break;
+		case 'a':
+			anim_index++;
+			if(anim_index > F3)
+				anim_index = F1;
+			animation_type(anim_index);
+			break;
+		case 'A':
+			anim_index--;
+			if(anim_index < 0)
+				anim_index = F3;
+			animation_type(anim_index);
 			break;
 	}
 }
@@ -160,15 +173,16 @@ int main(int argc, char** argv)
 				return 0;
 			case 'a':
 				if(!strcmp(optarg, "f1"))
-					animation_type(F1);
+					anim_index = F1;
 				else if(!strcmp(optarg, "f2"))
-					animation_type(F2);
+					anim_index = F2;
 				else if(!strcmp(optarg, "f3"))
-					animation_type(F3);
+					anim_index = F3;
 				else {
 					fprintf(stderr,"%s : Animation not recognized\n", optarg);
 					return 1;
 				}
+				animation_type(anim_index);
 				break;
 			case 'm':
 				if(!strcmp(optarg, "solid_cube"))
