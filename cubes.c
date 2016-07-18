@@ -20,6 +20,10 @@
 #define SPHERE_SLICES    16
 #define SPHERE_STACKS    8
 
+point3d** cube_position;
+transform_callback_t anim_callback;
+draw_object_callback_t draw_object_callback;
+
 void drawSolidSphere(void)
 {
 	glutSolidSphere(CUBE_SIZE, SPHERE_SLICES, SPHERE_STACKS);

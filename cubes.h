@@ -59,9 +59,6 @@ typedef struct point3d_t {
 	GLfloat x, y, z;
 } point3d;
 
-point3d** cube_position;
-transform_callback_t anim_callback;
-draw_object_callback_t draw_object_callback;
 
 void init_cubes(cube_config_t);
 void update_cubes_position(int frame);
