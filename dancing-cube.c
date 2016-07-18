@@ -29,6 +29,7 @@ const GLfloat light_position[] = {1.0 , 1.0 , 1.0 , 0.0};   // Position of the l
 
 int mat_index=0;
 int anim_index=0;
+int model_index=0;
 
 void display()
 {
@@ -86,6 +87,18 @@ void keyboard_press(unsigned char key, int x, int y)
 			if(anim_index < 0)
 				anim_index = F3;
 			animation_type(anim_index);
+			break;
+		case 'n':
+			model_index++;
+			if(model_index > WIRE_SPHERE)
+				model_index = SOLID_CUBE;
+			model_type(model_index);
+			break;
+		case 'N':
+			model_index--;
+			if(model_index < 0)
+				model_index = WIRE_SPHERE;
+			model_type(model_index);
 			break;
 	}
 }
@@ -186,17 +199,18 @@ int main(int argc, char** argv)
 				break;
 			case 'm':
 				if(!strcmp(optarg, "solid_cube"))
-					model_type(SOLID_CUBE);
+					model_index = SOLID_CUBE;
 				else if(!strcmp(optarg, "wire_cube"))
-					model_type(WIRE_CUBE);
+					model_index = WIRE_CUBE;
 				else if(!strcmp(optarg, "solid_sphere"))
-					model_type(SOLID_SPHERE);
+					model_index = SOLID_SPHERE;
 				else if(!strcmp(optarg, "wire_sphere"))
-					model_type(WIRE_SPHERE);
+					model_index = WIRE_SPHERE;
 				else {
 					fprintf(stderr, "%s : Model not recognized \n", optarg);
 					return 1;
 				}
+				model_type(model_index);
 				break;
 		}
 	}

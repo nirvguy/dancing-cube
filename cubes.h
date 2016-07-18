@@ -79,6 +79,12 @@ void material_base_type(material_type mat_type);
  * \param anim_type New animation type
  */
 void animation_type(anim_t anim_type);
-void model_type(model_t anim_type);
+
+/*
+ * Change 3d model
+ *
+ * \param model_type  New 3D model type
+ */
+void model_type(model_t model_type);
 
 #endif /* end of include guard: CUBES_H */
