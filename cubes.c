@@ -20,9 +20,14 @@
 #define SPHERE_SLICES    16
 #define SPHERE_STACKS    8
 
+void drawSolidSphere(void);
+void drawWireSphere(void);
+void drawSolidCube(void);
+void drawWireCube(void);
+
 cube_t** cubes;
-transform_callback_t anim_callback;
-draw_object_callback_t draw_object_callback;
+transform_callback_t anim_callback = f1;
+draw_object_callback_t draw_object_callback = drawSolidCube;
 material_type mat_base_type = PLASTIC;
 transform_color_callback_t color_callback = f1_color;
 
@@ -46,35 +51,8 @@ void drawWireCube(void)
 	glutWireCube(CUBE_SIZE);
 }
 
-void init_cubes(cube_config_t cube_config)
+void init_cubes()
 {
-	switch(cube_config.model_type) {
-		case SOLID_CUBE:
-			draw_object_callback = drawSolidCube;
-			break;
-		case WIRE_CUBE:
-			draw_object_callback = drawWireCube;
-			break;
-		case SOLID_SPHERE:
-			draw_object_callback = drawSolidSphere;
-			break;
-		case WIRE_SPHERE:
-			draw_object_callback = drawWireSphere;
-			break;
-	}
-
-	switch(cube_config.anim_type) {
-		case F1:
-			anim_callback = f1;
-			break;
-		case F2:
-			anim_callback = f2;
-			break;
-		case F3:
-			anim_callback = f3;
-			break;
-	}
-
 	cubes = (cube_t**) malloc(CUBES_X * sizeof(cube_t*));
 
 	// Initialize cube start positions
@@ -98,6 +76,39 @@ void destroy_cubes()
 
 void material_base_type(material_type mat_type) {
 	mat_base_type = mat_type;
+}
+
+void animation_type(anim_t anim_type)
+{
+	switch(anim_type) {
+		case F1:
+			anim_callback = f1;
+			break;
+		case F2:
+			anim_callback = f2;
+			break;
+		case F3:
+			anim_callback = f3;
+			break;
+	}
+}
+
+void model_type(model_t m_type)
+{
+	switch(m_type) {
+		case SOLID_CUBE:
+			draw_object_callback = drawSolidCube;
+			break;
+		case WIRE_CUBE:
+			draw_object_callback = drawWireCube;
+			break;
+		case SOLID_SPHERE:
+			draw_object_callback = drawSolidSphere;
+			break;
+		case WIRE_SPHERE:
+			draw_object_callback = drawWireSphere;
+			break;
+	}
 }
 
 void update_cubes_position(int frame)

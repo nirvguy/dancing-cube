@@ -139,8 +139,6 @@ void usage() {
 
 int main(int argc, char** argv)
 {
-	cube_config_t cube_config = { SOLID_CUBE, F1 };
-
 	static struct option long_opts[] = {
 		{"help"  , no_argument       , 0 , 'h'} ,
 		{"anim"  , required_argument , 0 , 'a'} ,
@@ -162,11 +160,11 @@ int main(int argc, char** argv)
 				return 0;
 			case 'a':
 				if(!strcmp(optarg, "f1"))
-					cube_config.anim_type = F1;
+					animation_type(F1);
 				else if(!strcmp(optarg, "f2"))
-					cube_config.anim_type = F2;
+					animation_type(F2);
 				else if(!strcmp(optarg, "f3"))
-					cube_config.anim_type = F3;
+					animation_type(F3);
 				else {
 					fprintf(stderr,"%s : Animation not recognized\n", optarg);
 					return 1;
@@ -174,13 +172,13 @@ int main(int argc, char** argv)
 				break;
 			case 'm':
 				if(!strcmp(optarg, "solid_cube"))
-					cube_config.model_type = SOLID_CUBE;
+					model_type(SOLID_CUBE);
 				else if(!strcmp(optarg, "wire_cube"))
-					cube_config.model_type = WIRE_CUBE;
+					model_type(WIRE_CUBE);
 				else if(!strcmp(optarg, "solid_sphere"))
-					cube_config.model_type = SOLID_SPHERE;
+					model_type(SOLID_SPHERE);
 				else if(!strcmp(optarg, "wire_sphere"))
-					cube_config.model_type = WIRE_SPHERE;
+					model_type(WIRE_SPHERE);
 				else {
 					fprintf(stderr, "%s : Model not recognized \n", optarg);
 					return 1;
@@ -190,7 +188,7 @@ int main(int argc, char** argv)
 	}
 
 	//Set-up cubes
-	init_cubes(cube_config);
+	init_cubes();
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
 	glutCreateWindow("dancing-cube");

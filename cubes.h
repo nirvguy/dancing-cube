@@ -48,11 +48,6 @@ typedef enum {
 	F3
 } anim_t;
 
-typedef struct {
-	model_t model_type;
-	anim_t  anim_type;
-} cube_config_t;
-
 typedef GLfloat (*transform_callback_t) (GLfloat, GLfloat, GLfloat);
 typedef rgb_color_t (*transform_color_callback_t) (GLfloat, GLfloat x, GLfloat y, GLfloat z);
 typedef void (*draw_object_callback_t) (void);
@@ -66,7 +61,7 @@ typedef struct {
 	rgb_color_t color;
 } cube_t;
 
-void init_cubes(cube_config_t);
+void init_cubes();
 void update_cubes_position(int frame);
 void draw_cubes();
 void destroy_cubes();
@@ -77,5 +72,7 @@ void destroy_cubes();
  * \param mat_type New material type
  */
 void material_base_type(material_type mat_type);
+void animation_type(anim_t anim_type);
+void model_type(model_t anim_type);
 
 #endif /* end of include guard: CUBES_H */
