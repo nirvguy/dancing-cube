@@ -17,8 +17,8 @@
 #include "cubes.h"
 #include "transforms.h"
 
-#define SPHERE_SLICES    8
-#define SPHERE_STACKS    4
+#define SPHERE_SLICES    16
+#define SPHERE_STACKS    8
 
 void drawSolidSphere(void)
 {
