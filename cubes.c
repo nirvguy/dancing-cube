@@ -20,7 +20,7 @@
 #define SPHERE_SLICES    16
 #define SPHERE_STACKS    8
 
-point3d** cube_position;
+cube_t** cubes;
 transform_callback_t anim_callback;
 draw_object_callback_t draw_object_callback;
 
@@ -73,16 +73,16 @@ void init_cubes(cube_config_t cube_config)
 			break;
 	}
 
-	cube_position = (point3d**) malloc(CUBES_X * sizeof(point3d*));
+	cubes = (cube_t**) malloc(CUBES_X * sizeof(cube_t*));
 
 	// Initialize cube start positions
 	for(int i=0; i<CUBES_X; i++) {
-		cube_position[i] = (point3d*) malloc(CUBES_Y * sizeof(point3d));
+		cubes[i] = (cube_t*) malloc(CUBES_Y * sizeof(cube_t));
 
 		for(int j=0; j<CUBES_X; j++) {
-			cube_position[i][j].x = START_X + (CUBE_SIZE + EPS) * i;
-			cube_position[i][j].y = START_Y + (CUBE_SIZE + EPS) * j;
-			cube_position[i][j].z = START_Z;
+			cubes[i][j].loc.x = START_X + (CUBE_SIZE + EPS) * i;
+			cubes[i][j].loc.y = START_Y + (CUBE_SIZE + EPS) * j;
+			cubes[i][j].loc.z = START_Z;
 		}
 	}
 }
@@ -90,8 +90,8 @@ void init_cubes(cube_config_t cube_config)
 void destroy_cubes()
 {
 	for(int i=0; i<CUBES_X; i++)
-		free(cube_position[i]);
-	free(cube_position);
+		free(cubes[i]);
+	free(cubes);
 }
 
 void update_cubes_position(int frame)
@@ -100,7 +100,7 @@ void update_cubes_position(int frame)
 
 	for(int i=0; i<CUBES_X; i++)
 		for(int j=0; j<CUBES_Y; j++)
-			cube_position[i][j].z = anim_callback(t, cube_position[i][j].x, cube_position[i][j].y);
+			cubes[i][j].loc.z = anim_callback(t, cubes[i][j].loc.x, cubes[i][j].loc.y);
 }
 
 void draw_cubes()
@@ -108,9 +108,9 @@ void draw_cubes()
 	for(int i=0; i<CUBES_X; i++) {
 		for(int j=0; j<CUBES_Y; j++) {
 			glPushMatrix();
-			glTranslatef(cube_position[i][j].x,
-			             cube_position[i][j].y,
-			             cube_position[i][j].z);
+			glTranslatef(cubes[i][j].loc.x,
+			             cubes[i][j].loc.y,
+			             cubes[i][j].loc.z);
 			draw_object_callback();
 			glPopMatrix();
 		}

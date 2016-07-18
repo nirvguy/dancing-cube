@@ -59,6 +59,9 @@ typedef struct point3d_t {
 	GLfloat x, y, z;
 } point3d;
 
+typedef struct {
+	point3d loc;
+} cube_t;
 
 void init_cubes(cube_config_t);
 void update_cubes_position(int frame);
