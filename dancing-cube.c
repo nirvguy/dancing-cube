@@ -27,6 +27,8 @@ const GLfloat light_ambient[]  = {0.8 , 0.8 , 0.8 , 0.0};   // RGBA color of the
 const GLfloat light_diffuse[]  = {0.7 , 0.7 , 0.7 , 1.0};   // RGBA color of the diffuse light
 const GLfloat light_position[] = {1.0 , 1.0 , 1.0 , 0.0};   // Position of the light
 
+int mat_index=0;
+
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -55,6 +57,24 @@ void window_reshape(GLint width, GLint height)
 		           0.5,                                  // Z near
 		           20.0);                                // Z far
 	glMatrixMode(GL_MODELVIEW);
+}
+
+void keyboard_press(unsigned char key, int x, int y)
+{
+	switch(key) {
+		case 'm':
+			mat_index++;
+			if(mat_index > METAL)
+				mat_index = PLASTIC;
+			material_base_type(mat_index);
+			break;
+		case 'M':
+			mat_index--;
+			if(mat_index < 0)
+				mat_index = METAL;
+			material_base_type(mat_index);
+			break;
+	}
 }
 
 void init()
@@ -179,6 +199,8 @@ int main(int argc, char** argv)
 	glutReshapeFunc(window_reshape);
 
 	material_base_type(PLASTIC);
+
+	glutKeyboardFunc(keyboard_press);
 
 	glutDisplayFunc(display);
 	glutTimerFunc(MSEC_FRAME, timer_update_cubes, FRAME_START);
