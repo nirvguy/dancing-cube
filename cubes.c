@@ -174,7 +174,7 @@ void model_type(model_t m_type)
 	}
 }
 
-void update_cubes_position(int frame)
+void update_cubes(int frame)
 {
 	GLfloat t = (GLfloat) frame / ((GLfloat) (FRAME_END-FRAME_START));
 

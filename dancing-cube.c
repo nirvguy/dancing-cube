@@ -41,7 +41,7 @@ void display()
 
 void timer_update_cubes(int frame)
 {
-	update_cubes_position(frame);
+	update_cubes(frame);
 
 	if(!paused) {
 		frame++;
