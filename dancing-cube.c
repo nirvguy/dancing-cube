@@ -30,6 +30,7 @@ const GLfloat light_position[] = {1.0 , 1.0 , 1.0 , 0.0};   // Position of the l
 int mat_index=0;
 int anim_index=0;
 int model_index=0;
+int paused=0;
 
 void display()
 {
@@ -42,9 +43,11 @@ void timer_update_cubes(int frame)
 {
 	update_cubes_position(frame);
 
-	frame++;
-	if(frame > FRAME_END)
-		frame = FRAME_START;
+	if(!paused) {
+		frame++;
+		if(frame > FRAME_END)
+			frame = FRAME_START;
+	}
 
 	glutTimerFunc(MSEC_FRAME, timer_update_cubes, frame);
 }
@@ -99,6 +102,9 @@ void keyboard_press(unsigned char key, int x, int y)
 			if(model_index < 0)
 				model_index = WIRE_TEAPOT;
 			model_type(model_index);
+			break;
+		case ' ':
+			paused = !paused;
 			break;
 	}
 }
