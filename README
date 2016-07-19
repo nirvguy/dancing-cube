@@ -2,3 +2,12 @@ dancing-cube
 ------------
 
 An OpenGL program for animate an array of cubes.
+
+Keyboard shortcuts:
+	- a          Next animation type
+	- A          Previous animation type
+	- n          Next model type
+	- N          Previous model type
+	- m          Next material type
+	- M          Previous material type
+	- SPACE      Toggle play/pause
