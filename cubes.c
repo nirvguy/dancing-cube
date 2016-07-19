@@ -174,10 +174,8 @@ void model_type(model_t m_type)
 	}
 }
 
-void update_cubes(int frame)
+void update_cubes(GLfloat t)
 {
-	GLfloat t = (GLfloat) frame / ((GLfloat) (FRAME_END-FRAME_START));
-
 	for(int i=0; i<CUBES_X; i++)
 		for(int j=0; j<CUBES_Y; j++) {
 			cubes[i][j].loc.z = anim_callback(t, cubes[i][j].loc.x, cubes[i][j].loc.y);

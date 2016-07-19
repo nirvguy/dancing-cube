@@ -66,7 +66,7 @@ typedef struct {
 } cube_t;
 
 void init_cubes();
-void update_cubes(int frame);
+void update_cubes(GLfloat frame);
 void draw_cubes();
 void destroy_cubes();
 

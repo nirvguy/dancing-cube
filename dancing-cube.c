@@ -23,6 +23,11 @@
 #include "cubes.h"
 #include "materials.h"
 
+#define FRAME_START   0
+#define FRAME_END     250
+#define FPS           24
+#define MSEC_FRAME    1000.0/FPS  // time in millesconds of a frame
+
 const GLfloat light_ambient[]  = {0.8 , 0.8 , 0.8 , 0.0};   // RGBA color of the ambient light
 const GLfloat light_diffuse[]  = {0.7 , 0.7 , 0.7 , 1.0};   // RGBA color of the diffuse light
 const GLfloat light_position[] = {1.0 , 1.0 , 1.0 , 0.0};   // Position of the light
@@ -41,7 +46,7 @@ void display()
 
 void timer_update_cubes(int frame)
 {
-	update_cubes(frame);
+	update_cubes((GLfloat) frame / (FRAME_END-FRAME_START));
 
 	if(!paused) {
 		frame++;
