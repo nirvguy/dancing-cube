@@ -33,6 +33,16 @@ void display()
 	glutSwapBuffers();
 }
 
+void timer_update_cubes(int frame)
+{
+	update_cubes_position(frame);
+
+	frame++;
+	if(frame > FRAME_END)
+		frame = FRAME_START;
+
+	glutTimerFunc(MSEC_FRAME, timer_update_cubes, frame);
+}
 
 void window_reshape(GLint width, GLint height)
 {

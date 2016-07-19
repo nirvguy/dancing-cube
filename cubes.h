@@ -67,6 +67,5 @@ void init_cubes(cube_config_t);
 void update_cubes_position(int frame);
 void draw_cubes();
 void destroy_cubes();
-void timer_update_cubes(int frame);
 
 #endif /* end of include guard: CUBES_H */

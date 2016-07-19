@@ -116,14 +116,3 @@ void draw_cubes()
 		}
 	}
 }
-
-void timer_update_cubes(int frame)
-{
-	update_cubes_position(frame);
-
-	frame++;
-	if(frame > FRAME_END)
-		frame = FRAME_START;
-
-	glutTimerFunc(MSEC_FRAME, timer_update_cubes, frame);
-}
