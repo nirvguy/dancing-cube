@@ -210,6 +210,10 @@ int main(int argc, char** argv)
 					model_index = SOLID_TEAPOT;
 				else if(!strcmp(optarg, "wire_teapot"))
 					model_index = WIRE_TEAPOT;
+				else if(!strcmp(optarg, "solid_pyramid"))
+					model_index = SOLID_PYRAMID;
+				else if(!strcmp(optarg, "wire_pyramid"))
+					model_index = WIRE_PYRAMID;
 				else {
 					fprintf(stderr, "%s : Model not recognized \n", optarg);
 					return 1;
