@@ -46,12 +46,6 @@ typedef enum {
 	WIRE_TEAPOT
 } model_t;
 
-typedef enum {
-	F1,
-	F2,
-	F3
-} anim_t;
-
 typedef GLfloat (*transform_callback_t) (GLfloat, GLfloat, GLfloat);
 typedef rgb_color_t (*transform_color_callback_t) (GLfloat, GLfloat x, GLfloat y, GLfloat z);
 typedef void (*draw_object_callback_t) (void);
@@ -66,7 +60,7 @@ typedef struct {
 } cube_t;
 
 void init_cubes();
-void update_cubes(GLfloat frame);
+void update_cubes(GLfloat time, transform_callback_t anim, transform_color_callback_t color_anim);
 void draw_cubes();
 void destroy_cubes();
 
@@ -76,13 +70,6 @@ void destroy_cubes();
  * \param mat_type New material type
  */
 void material_base_type(material_type mat_type);
-
-/*
- * Change animation type
- *
- * \param anim_type New animation type
- */
-void animation_type(anim_t anim_type);
 
 /*
  * Change 3d model

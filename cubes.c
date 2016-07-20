@@ -23,10 +23,8 @@
 void drawSolidCube(void);
 
 cube_t** cubes;
-transform_callback_t anim_callback = f1;
-draw_object_callback_t draw_object_callback = drawSolidCube;
 material_type mat_base_type = PLASTIC;
-transform_color_callback_t color_callback = f1_color;
+draw_object_callback_t draw_object_callback = drawSolidCube;
 
 void drawSolidSphere(void)
 {
@@ -129,21 +127,6 @@ void material_base_type(material_type mat_type) {
 	mat_base_type = mat_type;
 }
 
-void animation_type(anim_t anim_type)
-{
-	switch(anim_type) {
-		case F1:
-			anim_callback = f1;
-			break;
-		case F2:
-			anim_callback = f2;
-			break;
-		case F3:
-			anim_callback = f3;
-			break;
-	}
-}
-
 void model_type(model_t m_type)
 {
 	switch(m_type) {
@@ -174,14 +157,16 @@ void model_type(model_t m_type)
 	}
 }
 
-void update_cubes(GLfloat t)
+void update_cubes(GLfloat time, transform_callback_t anim_callback, transform_color_callback_t color_callback)
 {
 	for(int i=0; i<CUBES_X; i++)
 		for(int j=0; j<CUBES_Y; j++) {
-			cubes[i][j].loc.z = anim_callback(t, cubes[i][j].loc.x, cubes[i][j].loc.y);
-			cubes[i][j].color = color_callback(t, cubes[i][j].loc.x,
-			                                      cubes[i][j].loc.y,
-												  cubes[i][j].loc.z);
+			if(anim_callback)
+				cubes[i][j].loc.z = anim_callback(time, cubes[i][j].loc.x, cubes[i][j].loc.y);
+			if(color_callback)
+				cubes[i][j].color = color_callback(time, cubes[i][j].loc.x,
+				                                      cubes[i][j].loc.y,
+				                                      cubes[i][j].loc.z);
 		}
 }
 

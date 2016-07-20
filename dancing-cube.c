@@ -20,13 +20,19 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <getopt.h>
+#include "transforms.h"
 #include "cubes.h"
-#include "materials.h"
 
 #define FRAME_START   0
 #define FRAME_END     250
 #define FPS           24
 #define MSEC_FRAME    1000.0/FPS  // time in millesconds of a frame
+
+typedef enum {
+	F1,
+	F2,
+	F3
+} anim_t;
 
 const GLfloat light_ambient[]  = {0.8 , 0.8 , 0.8 , 0.0};   // RGBA color of the ambient light
 const GLfloat light_diffuse[]  = {0.7 , 0.7 , 0.7 , 1.0};   // RGBA color of the diffuse light
@@ -36,6 +42,23 @@ int mat_index=0;
 int anim_index=0;
 int model_index=0;
 int paused=0;
+transform_callback_t anim_callback = f1;
+transform_color_callback_t color_callback = f1_color;
+
+void animation_type(anim_t anim_type)
+{
+	switch(anim_type) {
+		case F1:
+			anim_callback = f1;
+			break;
+		case F2:
+			anim_callback = f2;
+			break;
+		case F3:
+			anim_callback = f3;
+			break;
+	}
+}
 
 void display()
 {
@@ -46,7 +69,7 @@ void display()
 
 void timer_update_cubes(int frame)
 {
-	update_cubes((GLfloat) frame / (FRAME_END-FRAME_START));
+	update_cubes((GLfloat) frame / (FRAME_END-FRAME_START), anim_callback, color_callback);
 
 	if(!paused) {
 		frame++;
