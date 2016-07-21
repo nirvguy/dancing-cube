@@ -77,6 +77,7 @@ void timer_update_cubes(int frame)
 			frame = FRAME_START;
 	}
 
+	glutPostRedisplay();
 	glutTimerFunc(MSEC_FRAME, timer_update_cubes, frame);
 }
 
@@ -272,7 +273,6 @@ int main(int argc, char** argv)
 
 	glutDisplayFunc(display);
 	glutTimerFunc(MSEC_FRAME, timer_update_cubes, FRAME_START);
-	glutIdleFunc(display);
 
 	init();
 	glutMainLoop();
