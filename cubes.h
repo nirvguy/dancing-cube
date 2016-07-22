@@ -59,6 +59,16 @@ typedef struct {
 	rgb_color_t color;
 } cube_t;
 
+static inline GLfloat cube_get_x(int i)
+{
+	return START_X + (CUBE_SIZE + EPS) * i;
+}
+
+static inline GLfloat cube_get_y(int j)
+{
+	return START_Y + (CUBE_SIZE + EPS) * j;
+}
+
 void init_cubes();
 void update_cubes(GLfloat time, transform_callback_t anim, transform_color_callback_t color_anim);
 void draw_cubes();

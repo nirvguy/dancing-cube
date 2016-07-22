@@ -109,8 +109,8 @@ void init_cubes()
 		cubes[i] = (cube_t*) malloc(CUBES_Y * sizeof(cube_t));
 
 		for(int j=0; j<CUBES_X; j++) {
-			cubes[i][j].loc.x = START_X + (CUBE_SIZE + EPS) * i;
-			cubes[i][j].loc.y = START_Y + (CUBE_SIZE + EPS) * j;
+			cubes[i][j].loc.x = cube_get_x(i);
+			cubes[i][j].loc.y = cube_get_y(j);
 			cubes[i][j].loc.z = START_Z;
 		}
 	}
