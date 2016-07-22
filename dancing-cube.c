@@ -170,6 +170,11 @@ void init()
 	          0.0, 0.0, 1.0); // Up vector
 }
 
+void close_window()
+{
+	destroy_cubes();
+}
+
 void usage() {
 	printf("Usage: ./danzing_cube [OPENGL_OPTION]... [OPTION]...,\n");
 	printf("OPENGL_OPTION:\n");
@@ -271,6 +276,7 @@ int main(int argc, char** argv)
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
 	glutCreateWindow("dancing-cube");
+	glutCloseFunc(close_window);
 
 	glutDisplayFunc(display);
 	glutReshapeFunc(window_reshape);
@@ -284,8 +290,6 @@ int main(int argc, char** argv)
 
 	init();
 	glutMainLoop();
-
-	destroy_cubes();
 
 	return 0;
 }
