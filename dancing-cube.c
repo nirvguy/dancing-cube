@@ -28,10 +28,13 @@
 #define FPS           24
 #define MSEC_FRAME    1000.0/FPS  // time in millesconds of a frame
 
+#define ANIM_FILE     255
+
 typedef enum {
 	F1,
 	F2,
-	F3
+	F3,
+	F4
 } anim_t;
 
 const GLfloat light_ambient[]  = {0.8 , 0.8 , 0.8 , 0.0};   // RGBA color of the ambient light
@@ -56,6 +59,9 @@ void animation_type(anim_t anim_type)
 			break;
 		case F3:
 			anim_callback = f3;
+			break;
+		case F4:
+			anim_callback = f4;
 			break;
 	}
 }
@@ -110,14 +116,14 @@ void keyboard_press(unsigned char key, int x, int y)
 			break;
 		case 'a':
 			anim_index++;
-			if(anim_index > F3)
+			if(anim_index > F4)
 				anim_index = F1;
 			animation_type(anim_index);
 			break;
 		case 'A':
 			anim_index--;
 			if(anim_index < 0)
-				anim_index = F3;
+				anim_index = F4;
 			animation_type(anim_index);
 			break;
 		case 'n':
@@ -226,6 +232,8 @@ int main(int argc, char** argv)
 					anim_index = F2;
 				else if(!strcmp(optarg, "f3"))
 					anim_index = F3;
+				else if(!strcmp(optarg, "f4"))
+					anim_index = F4;
 				else {
 					fprintf(stderr,"%s : Animation not recognized\n", optarg);
 					return 1;

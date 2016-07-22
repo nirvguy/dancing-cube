@@ -43,3 +43,11 @@ GLfloat f3(GLfloat time, GLfloat x, GLfloat y)
 {
 	return sin(-x*x+y+time*PI*2)/4.0;
 }
+
+GLfloat f4(GLfloat time, GLfloat x, GLfloat y) {
+	GLfloat norm2 = x*x + y*y;
+	if(norm2 < time * time * 6.0 * 6.0)
+		return norm2 / 4.0;
+	else
+		return 0.0;
+}
