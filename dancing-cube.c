@@ -28,7 +28,7 @@
 #define FPS           24
 #define MSEC_FRAME    1000.0/FPS  // time in millesconds of a frame
 
-#define ANIM_FILE     255
+#define FULLSCREEN_OPT 256
 
 typedef enum {
 	F1,
@@ -207,15 +207,19 @@ void usage() {
 	printf("-m MODEL_TYPE, --model=MODEL_TYPE     Change the 3D model.\n");
 	printf("                                      Options for MODEL_TYPE are solid_cube, wire_cube, solid_sphere, wire_sphere\n");
 	printf("                                      (by default is solid_cube)\n");
+	printf("--fullscreen                          Turns window to fullscreen mode\n");
 }
 
 int main(int argc, char** argv)
 {
+	static int fullscreen;
+	
 	static struct option long_opts[] = {
-		{"help"  , no_argument       , 0 , 'h'} ,
-		{"anim"  , required_argument , 0 , 'a'} ,
-		{"model" , required_argument , 0 , 'm'} ,
-		{0       , 0                 , 0 , 0}
+		{"help"       , no_argument       , 0           , 'h'} ,
+		{"anim"       , required_argument , 0           , 'a'} ,
+		{"model"      , required_argument , 0           , 'm'} ,
+		{"fullscreen" , no_argument       , &fullscreen , FULLSCREEN_OPT} ,
+		{0            , 0                 , 0           , 0}
 	};
 
 	glutInit(&argc, argv);
@@ -277,6 +281,9 @@ int main(int argc, char** argv)
 
 	glutCreateWindow("dancing-cube");
 	glutCloseFunc(close_window);
+
+	if(fullscreen)
+		glutFullScreen();
 
 	glutDisplayFunc(display);
 	glutReshapeFunc(window_reshape);
