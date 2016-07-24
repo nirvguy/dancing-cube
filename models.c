@@ -21,12 +21,12 @@
 
 void drawSolidSphere(GLfloat size)
 {
-	glutSolidSphere(size, SPHERE_SLICES, SPHERE_STACKS);
+	glutSolidSphere(size/2.0, SPHERE_SLICES, SPHERE_STACKS);
 }
 
 void drawWireSphere(GLfloat size)
 {
-	glutWireSphere(size, SPHERE_SLICES, SPHERE_STACKS);
+	glutWireSphere(size/2.0, SPHERE_SLICES, SPHERE_STACKS);
 }
 
 void drawSolidCube(GLfloat size)
@@ -59,30 +59,30 @@ void drawPyramid(GLfloat size, GLenum mode)
 	
 	glBegin(mode);
 	glNormal3f(0.0  , 0.707 , 0.707);
-	glVertex3f(1.0  , 1.0   , 0.0);
-	glVertex3f(-1.0 , 1.0   , 0.0);
-	glVertex3f(0.0  , 0.0   , 1.0);
+	glVertex3f(0.5  , 0.5   , 0.0);
+	glVertex3f(-0.5 , 0.5   , 0.0);
+	glVertex3f(0.0  , 0.0   , 0.5);
 	glEnd();
 
 	glBegin(mode);
 	glNormal3f(0.707 , 0.0  , 0.707);
-	glVertex3f(1.0   , 1.0  , 0.0);
-	glVertex3f(1.0   , -1.0 , 0.0);
-	glVertex3f(0.0   , 0.0  , 1.0);
+	glVertex3f(0.5   , 0.5  , 0.0);
+	glVertex3f(0.5   , -0.5 , 0.0);
+	glVertex3f(0.0   , 0.0  , 0.5);
 	glEnd();
 
 	glBegin(mode);
 	glNormal3f(0.0  , -0.707 , 0.707);
-	glVertex3f(1.0  , -1.0   , 0.0);
-	glVertex3f(-1.0 , -1.0   , 0.0);
-	glVertex3f(0.0  , 0.0    , 1.0);
+	glVertex3f(0.5  , -0.5   , 0.0);
+	glVertex3f(-0.5 , -0.5   , 0.0);
+	glVertex3f(0.0  , 0.0    , 0.5);
 	glEnd();
 
 	glBegin(mode);
 	glNormal3f(-0.707 , 0.0  , 0.707);
-	glVertex3f(-1.0   , -1.0 , 0.0);
-	glVertex3f(-1.0   , 1.0  , 0.0);
-	glVertex3f(0.0    , 0.0  , 1.0);
+	glVertex3f(-0.5   , -0.5 , 0.0);
+	glVertex3f(-0.5   , 0.5  , 0.0);
+	glVertex3f(0.0    , 0.0  , 0.5);
 	glEnd();
 }
 
