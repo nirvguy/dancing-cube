@@ -39,6 +39,15 @@ GLfloat f2(GLfloat time, GLfloat x, GLfloat y)
 	return time*5.0*exp(-norm/(8*(1.0-time+0.01)))/2;
 }
 
+rgb_color_t f2_color(GLfloat time, GLfloat x, GLfloat y, GLfloat z)
+{
+	rgb_color_t ret;
+	ret.r = (x+6.0)/6.0*time;
+	ret.g = (y+6.0)/6.0*time;
+	ret.b = (z+6.0)/6.0*time;
+	return ret;
+}
+
 GLfloat f3(GLfloat time, GLfloat x, GLfloat y)
 {
 	return sin(-x*x+y+time*PI*2)/4.0;

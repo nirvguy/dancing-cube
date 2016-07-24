@@ -46,7 +46,7 @@ int anim_index=0;
 int model_index=0;
 int paused=0;
 transform_callback_t anim_callback = f1;
-transform_color_callback_t color_callback = f1_color;
+transform_color_callback_t color_callback = f2_color;
 
 void animation_type(anim_t anim_type)
 {
