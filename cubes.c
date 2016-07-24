@@ -16,89 +16,13 @@
  **/
 #include "cubes.h"
 #include "transforms.h"
+#include "models.h"
 
-#define SPHERE_SLICES    16
-#define SPHERE_STACKS    8
-
-void drawSolidCube(void);
+typedef void (*draw_object_callback_t) (GLfloat);
 
 cube_t** cubes;
 material_type mat_base_type = PLASTIC;
 draw_object_callback_t draw_object_callback = drawSolidCube;
-
-void drawSolidSphere(void)
-{
-	glutSolidSphere(CUBE_SIZE, SPHERE_SLICES, SPHERE_STACKS);
-}
-
-void drawWireSphere(void)
-{
-	glutWireSphere(CUBE_SIZE, SPHERE_SLICES, SPHERE_STACKS);
-}
-
-void drawSolidCube(void)
-{
-	glutSolidCube(CUBE_SIZE);
-}
-
-void drawWireCube(void)
-{
-	glutWireCube(CUBE_SIZE);
-}
-
-void drawSolidTeapot(void)
-{
-	glRotatef(90.0, 1.0, 0.0, 0.0);
-	glScalef(0.5, 0.5, 0.5);
-	glutSolidTeapot(CUBE_SIZE);
-}
-
-void drawWireTeapot(void)
-{
-	glRotatef(90.0, 1.0, 0.0, 0.0);
-	glScalef(0.5, 0.5, 0.5);
-	glutWireTeapot(CUBE_SIZE);
-}
-
-void drawPyramid(GLenum mode) {
-	glScalef(CUBE_SIZE, CUBE_SIZE, CUBE_SIZE);
-	
-	glBegin(mode);
-	glNormal3f(0.0  , 0.707 , 0.707);
-	glVertex3f(1.0  , 1.0   , 0.0);
-	glVertex3f(-1.0 , 1.0   , 0.0);
-	glVertex3f(0.0  , 0.0   , 1.0);
-	glEnd();
-
-	glBegin(mode);
-	glNormal3f(0.707 , 0.0  , 0.707);
-	glVertex3f(1.0   , 1.0  , 0.0);
-	glVertex3f(1.0   , -1.0 , 0.0);
-	glVertex3f(0.0   , 0.0  , 1.0);
-	glEnd();
-
-	glBegin(mode);
-	glNormal3f(0.0  , -0.707 , 0.707);
-	glVertex3f(1.0  , -1.0   , 0.0);
-	glVertex3f(-1.0 , -1.0   , 0.0);
-	glVertex3f(0.0  , 0.0    , 1.0);
-	glEnd();
-
-	glBegin(mode);
-	glNormal3f(-0.707 , 0.0  , 0.707);
-	glVertex3f(-1.0   , -1.0 , 0.0);
-	glVertex3f(-1.0   , 1.0  , 0.0);
-	glVertex3f(0.0    , 0.0  , 1.0);
-	glEnd();
-}
-
-void drawSolidPyramid() {
-	drawPyramid(GL_POLYGON);
-}
-
-void drawWirePyramid() {
-	drawPyramid(GL_LINE_LOOP);
-}
 
 void init_cubes()
 {
@@ -179,7 +103,7 @@ void draw_cubes()
 			             cubes[i][j].loc.y,
 			             cubes[i][j].loc.z);
 			apply_material_by_type(mat_base_type, cubes[i][j].color);
-			draw_object_callback();
+			draw_object_callback(CUBE_SIZE);
 			glPopMatrix();
 		}
 	}

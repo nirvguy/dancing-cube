@@ -48,7 +48,6 @@ typedef enum {
 
 typedef GLfloat (*transform_callback_t) (GLfloat, GLfloat, GLfloat);
 typedef rgb_color_t (*transform_color_callback_t) (GLfloat, GLfloat x, GLfloat y, GLfloat z);
-typedef void (*draw_object_callback_t) (void);
 
 typedef struct point3d_t {
 	GLfloat x, y, z;
