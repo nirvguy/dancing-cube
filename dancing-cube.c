@@ -36,6 +36,12 @@
 #define MSEC_FRAME    1000.0/FPS  // time in millesconds of a frame
 
 #define FULLSCREEN_OPT 256
+#define START_X_OPT    257
+#define START_Y_OPT    258
+#define END_X_OPT      259
+#define END_Y_OPT      260
+#define EPS_OPT        261
+#define CUBE_SIZE_OPT  262
 
 typedef enum {
 	F1,
@@ -215,6 +221,25 @@ void usage() {
 	printf("                                      Options for MODEL_TYPE are solid_cube, wire_cube, solid_sphere, wire_sphere\n");
 	printf("                                      (by default is solid_cube)\n");
 	printf("--fullscreen                          Turns window to fullscreen mode\n");
+	printf("--start-x                             Change the default start position in x-axis\n");
+	printf("--start-y                             Change the default start position in y-axis\n");
+	printf("--end-x                               Change the default last position in x-axis\n");
+	printf("--end-y                               Change the default last position in y-axis\n");
+	printf("--size                                Change default cube size position\n");
+	printf("--eps                                 Change default cube separation\n");
+}
+
+float read_float(char* str) {
+	char* ep;
+
+	float res = strtof(str, &ep);
+
+	if(*ep != '\0') {
+		fprintf(stderr, "%s: is not a float\n", str);
+		exit(1);
+	}
+
+	return res;
 }
 
 int main(int argc, char** argv)
@@ -233,7 +258,13 @@ int main(int argc, char** argv)
 		{"anim"       , required_argument , 0           , 'a'} ,
 		{"model"      , required_argument , 0           , 'm'} ,
 		{"fullscreen" , no_argument       , &fullscreen , FULLSCREEN_OPT} ,
-		{0            , 0                 , 0           , 0}
+		{"start-x"    , required_argument , 0           , START_X_OPT} ,
+		{"start-y"    , required_argument , 0           , START_Y_OPT} ,
+		{"end-x"      , required_argument , 0           , END_X_OPT} ,
+		{"end-y"      , required_argument , 0           , END_Y_OPT} ,
+		{"size"       , required_argument , 0           , CUBE_SIZE_OPT} ,
+		{"eps"        , required_argument , 0           , EPS_OPT} ,
+		{0            , required_argument , 0           , 0}
 	};
 
 	glutInit(&argc, argv);
@@ -263,6 +294,24 @@ int main(int argc, char** argv)
 				}
 				animation_type(anim_index);
 				break;
+			case START_X_OPT:
+				conf.start_x = read_float(optarg);
+				break;
+			case START_Y_OPT:
+				conf.start_y = read_float(optarg);
+				break;
+			case END_X_OPT:
+				conf.end_x = read_float(optarg);
+				break;
+			case END_Y_OPT:
+				conf.end_y = read_float(optarg);
+				break;
+			case CUBE_SIZE_OPT:
+				conf.cube_size = read_float(optarg);
+				break;
+			case EPS_OPT:
+				conf.eps = read_float(optarg);
+				break;
 			case 'm':
 				if(!strcmp(optarg, "solid_cube"))
 					model_index = SOLID_CUBE;
@@ -291,6 +340,7 @@ int main(int argc, char** argv)
 
 	//Set-up cubes
 	init_cubes(conf);
+
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
 	glutCreateWindow("dancing-cube");
