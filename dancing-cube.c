@@ -117,46 +117,46 @@ void window_reshape(GLint width, GLint height)
 void keyboard_press(unsigned char key, int x, int y)
 {
 	switch(key) {
-		case 'm':
 		case 27: //ESCAPE
 			glutDestroyWindow(win_nr);
 			break;
+		case 'm': // Next materials
 			mat_index++;
 			if(mat_index > METAL)
 				mat_index = PLASTIC;
 			material_base_type(mat_index);
 			break;
-		case 'M':
+		case 'M': // Previous material
 			mat_index--;
 			if(mat_index < 0)
 				mat_index = METAL;
 			material_base_type(mat_index);
 			break;
-		case 'a':
+		case 'a': // Next animation function
 			anim_index++;
 			if(anim_index > F4)
 				anim_index = F1;
 			animation_type(anim_index);
 			break;
-		case 'A':
+		case 'A': // Previous animation function
 			anim_index--;
 			if(anim_index < 0)
 				anim_index = F4;
 			animation_type(anim_index);
 			break;
-		case 'n':
+		case 'n': // Next model type
 			model_index++;
 			if(model_index > WIRE_TEAPOT)
 				model_index = SOLID_CUBE;
 			model_type(model_index);
 			break;
-		case 'N':
+		case 'N': // Previous model type
 			model_index--;
 			if(model_index < 0)
 				model_index = WIRE_TEAPOT;
 			model_type(model_index);
 			break;
-		case ' ':
+		case ' ': // Toggle play/pause animation
 			paused = !paused;
 			break;
 	}
