@@ -23,26 +23,35 @@ typedef void (*draw_object_callback_t) (GLfloat);
 cube_t** cubes;
 material_type mat_base_type = PLASTIC;
 draw_object_callback_t draw_object_callback = drawSolidCube;
+int cubes_x;
+int cubes_y;
+GLfloat cube_size;
 
-void init_cubes()
+
+void init_cubes(cube_config_t config)
 {
-	cubes = (cube_t**) malloc(CUBES_X * sizeof(cube_t*));
+	cubes_x = get_cubes_x(&config);
+	cubes_y = get_cubes_y(&config);
+
+	cube_size = config.cube_size;
+
+	cubes = (cube_t**) malloc(cubes_x * sizeof(cube_t*));
 
 	// Initialize cube start positions
-	for(int i=0; i<CUBES_X; i++) {
-		cubes[i] = (cube_t*) malloc(CUBES_Y * sizeof(cube_t));
+	for(int i=0; i<cubes_x; i++) {
+		cubes[i] = (cube_t*) malloc(cubes_y * sizeof(cube_t));
 
-		for(int j=0; j<CUBES_X; j++) {
-			cubes[i][j].loc.x = cube_get_x(i);
-			cubes[i][j].loc.y = cube_get_y(j);
-			cubes[i][j].loc.z = START_Z;
+		for(int j=0; j<cubes_x; j++) {
+			cubes[i][j].loc.x = cube_get_x(&config, i);
+			cubes[i][j].loc.y = cube_get_y(&config, j);
+			cubes[i][j].loc.z = config.start_z;
 		}
 	}
 }
 
 void destroy_cubes()
 {
-	for(int i=0; i<CUBES_X; i++)
+	for(int i=0; i<cubes_x; i++)
 		free(cubes[i]);
 	free(cubes);
 }
@@ -83,8 +92,8 @@ void model_type(model_t m_type)
 
 void update_cubes(GLfloat time, transform_callback_t anim_callback, transform_color_callback_t color_callback)
 {
-	for(int i=0; i<CUBES_X; i++)
-		for(int j=0; j<CUBES_Y; j++) {
+	for(int i=0; i<cubes_x; i++)
+		for(int j=0; j<cubes_y; j++) {
 			if(anim_callback)
 				cubes[i][j].loc.z = anim_callback(time, cubes[i][j].loc.x, cubes[i][j].loc.y);
 			if(color_callback)
@@ -96,14 +105,14 @@ void update_cubes(GLfloat time, transform_callback_t anim_callback, transform_co
 
 void draw_cubes()
 {
-	for(int i=0; i<CUBES_X; i++) {
-		for(int j=0; j<CUBES_Y; j++) {
+	for(int i=0; i<cubes_x; i++) {
+		for(int j=0; j<cubes_y; j++) {
 			glPushMatrix();
 			glTranslatef(cubes[i][j].loc.x,
 			             cubes[i][j].loc.y,
 			             cubes[i][j].loc.z);
 			apply_material_by_type(mat_base_type, cubes[i][j].color);
-			draw_object_callback(CUBE_SIZE);
+			draw_object_callback(cube_size);
 			glPopMatrix();
 		}
 	}

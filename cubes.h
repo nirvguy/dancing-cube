@@ -21,20 +21,6 @@
 #include <GL/glut.h>
 #include "materials.h"
 
-#define CUBE_SIZE     0.5
-#define START_X      -6.0         // first cube x-axis origin
-#define START_Y      -6.0         // first cube y-axis origin
-#define START_Z       0.0         // height for all cubes by default
-#define END_X         6.0         // last cube x-axis origin
-#define END_Y         6.0         // last cube y-axis origin
-#define EPS           0.05        // cube's separation distance
-#define CUBES_X       (int) ((END_X - START_X) / (EPS + CUBE_SIZE))          // number of cubes in x-axis
-#define CUBES_Y       (int) ((END_Y - START_Y) / (EPS + CUBE_SIZE))          // number of cubes in z-axis
-#define FRAME_START   0
-#define FRAME_END     250
-#define FPS           24
-#define MSEC_FRAME    1000.0/FPS  // time in millesconds of a frame
-
 typedef enum {
 	SOLID_CUBE,
 	WIRE_CUBE,
@@ -53,22 +39,42 @@ typedef struct point3d_t {
 	GLfloat x, y, z;
 } point3d;
 
+typedef struct point2d_t {
+	GLfloat x, y;
+} point2d;
+
 typedef struct {
 	point3d loc;
 	rgb_color_t color;
 } cube_t;
 
-static inline GLfloat cube_get_x(int i)
+typedef struct {
+	GLfloat start_x, start_y, start_z;
+	GLfloat end_x, end_y;
+	GLfloat cube_size;
+	GLfloat eps;
+} cube_config_t;
+
+static inline GLfloat cube_get_x(cube_config_t* config, int i)
 {
-	return START_X + (CUBE_SIZE + EPS) * i;
+	return config->start_x + (config->cube_size + config->eps) * i;
 }
 
-static inline GLfloat cube_get_y(int j)
+static inline GLfloat cube_get_y(cube_config_t* config, int j)
 {
-	return START_Y + (CUBE_SIZE + EPS) * j;
+	return config->start_y + (config->cube_size + config->eps) * j;
 }
 
-void init_cubes();
+static inline int get_cubes_x(cube_config_t* config)
+{
+	return (int) (config->end_x - config->start_x) / (config->cube_size + config->eps);
+}
+static inline int get_cubes_y(cube_config_t* config)
+{
+	return (int) (config->end_x - config->start_x) / (config->cube_size + config->eps);
+}
+
+void init_cubes(cube_config_t config);
 void update_cubes(GLfloat time, transform_callback_t anim, transform_color_callback_t color_anim);
 void draw_cubes();
 void destroy_cubes();

@@ -23,6 +23,13 @@
 #include "transforms.h"
 #include "cubes.h"
 
+#define CUBE_SIZE     0.5
+#define START_X      -6.0         // first cube x-axis origin
+#define START_Y      -6.0         // first cube y-axis origin
+#define START_Z       0.0         // height for all cubes by default
+#define END_X         6.0         // last cube x-axis origin
+#define END_Y         6.0         // last cube y-axis origin
+#define EPS           0.01        // cube's separation distance
 #define FRAME_START   0
 #define FRAME_END     250
 #define FPS           24
@@ -212,6 +219,13 @@ void usage() {
 
 int main(int argc, char** argv)
 {
+	cube_config_t conf = {.start_x   = START_X,
+	                      .start_y   = START_Y,
+	                      .start_z   = START_Z,
+	                      .end_x     = END_X,
+	                      .end_y     = END_Y,
+	                      .cube_size = CUBE_SIZE,
+	                      .eps       = EPS};
 	static int fullscreen;
 	
 	static struct option long_opts[] = {
@@ -276,7 +290,7 @@ int main(int argc, char** argv)
 	}
 
 	//Set-up cubes
-	init_cubes();
+	init_cubes(conf);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
 	glutCreateWindow("dancing-cube");
