@@ -61,6 +61,8 @@ int paused=0;
 transform_callback_t anim_callback = f1;
 transform_color_callback_t color_callback = f2_color;
 
+int win_nr;
+
 void animation_type(anim_t anim_type)
 {
 	switch(anim_type) {
@@ -116,6 +118,9 @@ void keyboard_press(unsigned char key, int x, int y)
 {
 	switch(key) {
 		case 'm':
+		case 27: //ESCAPE
+			glutDestroyWindow(win_nr);
+			break;
 			mat_index++;
 			if(mat_index > METAL)
 				mat_index = PLASTIC;
@@ -343,7 +348,7 @@ int main(int argc, char** argv)
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
-	glutCreateWindow("dancing-cube");
+	win_nr = glutCreateWindow("dancing-cube");
 	glutCloseFunc(close_window);
 
 	if(fullscreen)
