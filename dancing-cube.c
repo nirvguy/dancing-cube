@@ -42,6 +42,7 @@
 #define END_Y_OPT      260
 #define EPS_OPT        261
 #define CUBE_SIZE_OPT  262
+#define NO_CYCLIC_OPT  263
 
 typedef enum {
 	F1,
@@ -58,6 +59,11 @@ int mat_index=0;
 int anim_index=0;
 int model_index=0;
 int paused=0;
+
+uint32_t frame_start = FRAME_START;
+uint32_t frame_end   = FRAME_END;
+int cyclic = 1;
+
 transform_callback_t anim_callback = f1;
 transform_color_callback_t color_callback = f2_color;
 
@@ -90,16 +96,18 @@ void display()
 
 void timer_update_cubes(int frame)
 {
-	update_cubes((GLfloat) frame / (FRAME_END-FRAME_START), anim_callback, color_callback);
-
 	if(!paused) {
+		update_cubes((GLfloat) frame / (frame_end-frame_start), anim_callback, color_callback);
+
 		frame++;
-		if(frame > FRAME_END)
-			frame = FRAME_START;
+		if(cyclic && frame > frame_end) {
+			frame = frame_start;
+		}
 	}
 
 	glutPostRedisplay();
-	glutTimerFunc(MSEC_FRAME, timer_update_cubes, frame);
+	if(frame <= frame_end)
+		glutTimerFunc(MSEC_FRAME, timer_update_cubes, frame);
 }
 
 void window_reshape(GLint width, GLint height)
@@ -232,6 +240,9 @@ void usage() {
 	printf("--end-y                               Change the default last position in y-axis\n");
 	printf("--size                                Change default cube size position\n");
 	printf("--eps                                 Change default cube separation\n");
+	printf("--no-cyclic                           No cycle animation\n");
+	printf("--frame-start=FRAME , -s FRAME        Change start frame at FRAME\n");
+	printf("--frame-tot=FRAME , -t FRAME          Change total frame to FRAME\n");
 }
 
 float read_float(char* str) {
@@ -241,6 +252,20 @@ float read_float(char* str) {
 
 	if(*ep != '\0') {
 		fprintf(stderr, "%s: is not a float\n", str);
+		exit(1);
+	}
+
+	return res;
+}
+
+uint32_t read_uint32(char* str)
+{
+	char *ep;
+
+	uint32_t res = strtoumax(str, &ep, 10);
+
+	if(*ep != '\0') {
+		fprintf(stderr, "%s: is not a int\n", str);
 		exit(1);
 	}
 
@@ -257,7 +282,7 @@ int main(int argc, char** argv)
 	                      .cube_size = CUBE_SIZE,
 	                      .eps       = EPS};
 	static int fullscreen;
-	
+
 	static struct option long_opts[] = {
 		{"help"       , no_argument       , 0           , 'h'} ,
 		{"anim"       , required_argument , 0           , 'a'} ,
@@ -269,13 +294,17 @@ int main(int argc, char** argv)
 		{"end-y"      , required_argument , 0           , END_Y_OPT} ,
 		{"size"       , required_argument , 0           , CUBE_SIZE_OPT} ,
 		{"eps"        , required_argument , 0           , EPS_OPT} ,
-		{0            , required_argument , 0           , 0}
+		{"frame-start", required_argument , 0           , 's'},
+		{"frame-tot"  , required_argument , 0           , 't'},
+		{"no-cyclic"  , no_argument       , 0           , NO_CYCLIC_OPT},
+		{0           , 0                 , 0 , 0}
 	};
 
 	glutInit(&argc, argv);
 
 	int opt_index, opt;
-	while((opt = getopt_long(argc, argv, "ha:m:",
+	int tot_frames = 0;
+	while((opt = getopt_long(argc, argv, "ha:m:s:t:",
 		                     long_opts, &opt_index)) != -1) {
 		switch(opt) {
 			case '?':
@@ -317,6 +346,15 @@ int main(int argc, char** argv)
 			case EPS_OPT:
 				conf.eps = read_float(optarg);
 				break;
+			case NO_CYCLIC_OPT:
+				cyclic = 0;
+				break;
+			case 's':
+				frame_start = read_uint32(optarg);
+				break;
+			case 't':
+				tot_frames = read_uint32(optarg);
+				break;
 			case 'm':
 				if(!strcmp(optarg, "solid_cube"))
 					model_index = SOLID_CUBE;
@@ -343,6 +381,9 @@ int main(int argc, char** argv)
 		}
 	}
 
+	if(tot_frames)
+		frame_end = frame_start + tot_frames;
+
 	//Set-up cubes
 	init_cubes(conf);
 
@@ -362,7 +403,7 @@ int main(int argc, char** argv)
 	glutKeyboardFunc(keyboard_press);
 
 	glutDisplayFunc(display);
-	glutTimerFunc(MSEC_FRAME, timer_update_cubes, FRAME_START);
+	glutTimerFunc(MSEC_FRAME, timer_update_cubes, frame_start);
 
 	init();
 	glutMainLoop();
